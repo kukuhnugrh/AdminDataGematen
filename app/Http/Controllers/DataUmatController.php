@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DataUmatController extends Controller
 {
@@ -13,6 +14,8 @@ class DataUmatController extends Controller
      */
     public function index()
     {
+        $dataUmat = DB::table('umat')->get();
+        dump($dataUmat);
         return view('index');
     }
 
