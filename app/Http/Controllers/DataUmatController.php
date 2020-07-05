@@ -14,9 +14,9 @@ class DataUmatController extends Controller
      */
     public function index()
     {
-        $dataUmat = DB::table('umat')->get();
-        dump($dataUmat);
-        return view('index');
+        $dataUmat = DB::table('umat')->orderBy('umat_kk')->get();
+        $dataLingkungan = DB::table('lingkungan')->get();
+        return view('index', ['dataUmat' => $dataUmat], ['dataLingkungan' => $dataLingkungan]);
     }
 
     /**
