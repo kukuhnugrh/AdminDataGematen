@@ -14,4 +14,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'DataUmatController@index');
+Route::get('/wilayah={id}', 'DataUmatController@show');
 Route::get('/umatPribadi', 'UmatPribadiController@index');
