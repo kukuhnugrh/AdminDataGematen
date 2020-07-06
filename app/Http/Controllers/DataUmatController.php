@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DataUmatController extends Controller
 {
@@ -13,7 +14,12 @@ class DataUmatController extends Controller
      */
     public function index()
     {
-        return view('index');
+        $dataUmat = DB::table('umat')
+                        ->join('hubungan_keluarga', 'umat.umat_hubungan_keluarga', '=', 'hubungan_keluarga.hubungan_keluarga_id')
+                        ->join('agama', 'umat.umat_agama', '=', 'agama.agama_id')
+                        ->orderBy('umat_kk', 'ASC')->orderBy('hubungan_keluarga_id', 'DESC')->get();
+        $dataLingkungan = DB::table('lingkungan')->get();
+        return view('index', ['dataUmat' => $dataUmat], ['dataLingkungan' => $dataLingkungan]);
     }
 
     /**
@@ -34,7 +40,7 @@ class DataUmatController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       //
     }
 
     /**
@@ -45,7 +51,21 @@ class DataUmatController extends Controller
      */
     public function show($id)
     {
-        //
+        if($id == 0){
+            $dataUmat = DB::table('umat')
+                        ->join('hubungan_keluarga', 'umat.umat_hubungan_keluarga', '=', 'hubungan_keluarga.hubungan_keluarga_id')
+                        ->join('agama', 'umat.umat_agama', '=', 'agama.agama_id')
+                        ->orderBy('umat_kk', 'ASC')->orderBy('hubungan_keluarga_id', 'DESC')->get();
+        }else{
+            $dataUmat = DB::table('umat')
+                        ->join('hubungan_keluarga', 'umat.umat_hubungan_keluarga', '=', 'hubungan_keluarga.hubungan_keluarga_id')
+                        ->join('agama', 'umat.umat_agama', '=', 'agama.agama_id')
+                        ->where('umat_lingkungan_id', $id)
+                        ->orderBy('umat_kk', 'ASC')->orderBy('hubungan_keluarga_id', 'DESC')->get();
+
+        }
+        $dataLingkungan = DB::table('lingkungan')->get();
+        return view('index', ['dataUmat' => $dataUmat], ['dataLingkungan' => $dataLingkungan]);
     }
 
     /**
