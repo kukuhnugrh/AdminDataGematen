@@ -1,30 +1,28 @@
 @extends('layout/main')
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
 
 @section('container')
+{{ $il = 0 }}
 <div class="container">
     <div class="row">
         <div class="col-10">
             <h1 class="mt-2">Daftar Umat</h1>
-            <div>
-                <a href=""><button type="button" class="btn btn-primary">Export to PDF</button></a>
-            </div>
             <label for="name" class=" col-form-label"><b>Lingkungan</b></label>
-            <form>
-                <div class="form-group row">
-                    <div class="col-md-6">
-                        <select name="Lingkungan" id="Lingkungan" class="form-control input-lg" data-dependent="tabel_umat">
-                            <option value="">== Pilih Lingkungan ==</option>
-                            @foreach( $dataLingkungan as $dl )
-                                <option value="{{ $dl->lingkungan_id }}">{{ $dl->lingkungan_nama }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-auto">
-                        <button type="submit" class="btn btn-primary mb-2">Submit</button>
-                    </div>
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <select name="Lingkungan" id="Lingkungan" class="form-control input-lg" required>
+                        <option value="0">== Pilih Lingkungan ==</option>
+                        @foreach( $dataLingkungan as $dl )
+                            <option value="{{ $dl->lingkungan_id }}">{{ $dl->lingkungan_nama }}</option>
+                        @endforeach
+                    </select>
                 </div>
-            </form>
-            <div id="container-table">
+                <div>
+                    <a href="ataUmat/PDF/0" target="_blank" name="Export" id="Export"><button type="button" class="btn btn-primary">Export to PDF</button></a>
+                </div>
+            </div>
+            <div id="container-table table-responsive">
                 <table class="table">
                     <thead class="thead-dark">
                         <tr>
@@ -34,7 +32,7 @@
                             <th scope="col">Hubungan Keluarga</th>
                             <th scope="col">Buku Baptis</th>
                             <th scope="col">Agama</th>
-                            <th scope="col">Nomoer Handphone</th>
+                            <th scope="col">Nomor Handphone</th>
                             <th scope="col">Narasi</th>
                             <th scope="col">Status Meninggal</th>
                         </tr>
@@ -51,7 +49,7 @@
                                 <td>{{ $du->umat_handphone}}</td>
                                 <td>{{ $du->narasi}}</td>
                                 @if($du->umat_meninggal === 1)
-                                    <td>Meniggal</td>
+                                    <td>Meninggal</td>
                                 @else
                                     <td>-</td>
                                 @endif
@@ -63,4 +61,42 @@
         </div>
     </div>
 </div>
+@endsection
+@section('js')
+<script>
+    $(document).ready(function(){
+        $('select[name=Lingkungan]').on('change', function(){
+            var LingkunganID = $(this).val();
+            document.getElementById('Export').setAttribute("href", "dataUmat/PDF/"+LingkunganID);
+            $.ajax({
+                url: '/dataUmat/'+LingkunganID,
+                type: "GET",
+                dataType: "json",
+                success:function(data){
+                    var i = 1;
+                    $('#daftarUmatWilayah').empty();
+                    $.each(data, function(key, value){
+                        var meninggal = "";
+                        if(value.umat_meninggal == 1){
+                            var meninggal = "Meninggal"
+                        }else{
+                            var meninggal = "-"
+                        }
+                        $('#daftarUmatWilayah').append("<tr><td scope='row'>"+i+
+                            "</td><td>"+value.umat_kk+
+                            "</td><td>"+value.umat_nama+
+                            "</td><td>"+value.hubungan_keluarga_nama+
+                            "</td><td>"+value.umat_buku_baptis+
+                            "</td><td>"+value.agama_nama+
+                            "</td><td>"+value.umat_handphone+
+                            "</td><td>"+value.narasi+
+                            "</td><td>"+meninggal+"</td></tr>");
+                            
+                            i++;
+                    });
+                }
+            });
+        });
+    });
+</script>
 @endsection
