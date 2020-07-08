@@ -3,7 +3,6 @@
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
 
 @section('container')
-{{ $il = 0 }}
 <div class="container">
     <div class="row">
         <div class="col-10">
@@ -37,7 +36,7 @@
                             <th scope="col">Status Meninggal</th>
                         </tr>
                     </thead>
-                    <tbody id="daftarUmatWilayah">
+                    <tbody id="daftarUmatLingkungan">
                         @foreach( $dataUmat as $du )
                             <tr>
                                 <td scope="row">{{ $loop->iteration }}</td>
@@ -74,7 +73,7 @@
                 dataType: "json",
                 success:function(data){
                     var i = 1;
-                    $('#daftarUmatWilayah').empty();
+                    $('#daftarUmatLingkungan').empty();
                     $.each(data, function(key, value){
                         var meninggal = "";
                         if(value.umat_meninggal == 1){
@@ -82,7 +81,7 @@
                         }else{
                             var meninggal = "-"
                         }
-                        $('#daftarUmatWilayah').append("<tr><td scope='row'>"+i+
+                        $('#daftarUmatLingkungan').append("<tr><td scope='row'>"+i+
                             "</td><td>"+value.umat_kk+
                             "</td><td>"+value.umat_nama+
                             "</td><td>"+value.hubungan_keluarga_nama+

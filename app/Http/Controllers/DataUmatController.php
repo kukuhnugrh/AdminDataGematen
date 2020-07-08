@@ -108,7 +108,9 @@ class DataUmatController extends Controller
                         ->join('hubungan_keluarga', 'umat.umat_hubungan_keluarga', '=', 'hubungan_keluarga.hubungan_keluarga_id')
                         ->join('agama', 'umat.umat_agama', '=', 'agama.agama_id')
                         ->where('umat_lingkungan_id', $id)
-                        ->orderBy('umat_kk', 'ASC')->orderBy('hubungan_keluarga_id', 'DESC')->get();
+                        ->orderBy('umat_lingkungan_id', 'ASC')
+                        ->orderBy('umat_kk', 'ASC')
+                        ->orderBy('hubungan_keluarga_id', 'DESC')->get();
         $dataLingkungan = DB::table('lingkungan')
                                 ->where('lingkungan_id', $id)
                                 ->get();
