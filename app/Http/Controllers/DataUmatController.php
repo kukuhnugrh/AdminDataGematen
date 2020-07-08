@@ -126,8 +126,6 @@ class DataUmatController extends Controller
                                 ->get();
             $pdf = PDF::loadview('dataUmatPDF', ['dataUmat' => $dataUmat], ['dataLingkungan' => $dataLingkungan])->setPaper('a4', 'landscape');
         }
-    	
-    	//$pdf = PDF::loadview('dataUmatPDF', ['dataUmat' => $dataUmat], ['dataLingkungan' => $dataLingkungan])->setPaper('a4', 'landscape');
     	return $pdf->download('DATAUMAT');
     }
 }

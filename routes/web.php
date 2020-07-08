@@ -19,3 +19,7 @@ Route::get('/dataUmat/PDF/{id}', 'DataUmatController@cetak_pdf');
 Route::get('/umatPribadi', 'UmatPribadiController@index');
 Route::get('/umatPribadi/{id}', 'UmatPribadiController@show');
 Route::get('/umatPribadi/{id}/{keyword}', 'UmatPribadiController@liveSearch');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+

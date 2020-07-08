@@ -20,8 +20,11 @@
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
                         <a name="dataUmat" id="dataUmat" class="nav-item nav-link active" href="{{ url('/')}}">Data Umat</a>
-                        <a name="dataPribadi" id="dataPribadi" class="nav-item nav-link" href="{{ url('/umatPribadi')}}">Data Pribadi</a>
+                        <a name="dataPribadi" id="dataPribadi" class="nav-item nav-link active" href="{{ url('/umatPribadi')}}">Data Pribadi</a>
                     </div>
+                </div>
+                <div class="form-inline">
+                    <button class="btn btn-outline-dark form-control" type="submit">Logout</button>
                 </div>
             </div>
         </nav>
@@ -42,15 +45,29 @@
 <script>
     $(document).ready(function(){
         $('a[name=dataPribadi]').on('click', function(){
-            document.getElementById('dataPribadi').setAttribute("class", "nav-item nav-link active");
-            document.getElementById('dataUmat').setAttribute("class", "nav-item nav-link deactive");
+            $.ajax({
+                url: '/',
+                type: "GET",
+                dataType: "json",
+                success:function(data){
+                    document.getElementById('dataPribadi').setAttribute("class", "nav-item nav-link active");
+                    document.getElementById('dataUmat').setAttribute("class", "nav-item nav-link deactive");
+                }
+            });
         });
-    });
+        
 
     $(document).ready(function(){
         $('a[name=dataUmat]').on('click', function(){
-            document.getElementById('dataUmat').setAttribute("class", "nav-item nav-link active");
-            document.getElementById('dataPribadi').setAttribute("class", "nav-item nav-link deactive");
+            $.ajax({
+                url: '/umatPribadi',
+                type: "GET",
+                dataType: "json",
+                success:function(data){
+                    document.getElementById('dataUmat').setAttribute("class", "nav-item nav-link active");
+                    document.getElementById('dataPribadi').setAttribute("class", "nav-item nav-link deactive");
+                }
+            });
         });
     });
 </script>
