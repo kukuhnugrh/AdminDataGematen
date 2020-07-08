@@ -1,8 +1,8 @@
-@extends('layout/main')
+@extends('layouts/app')
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
 
-@section('container')
+@section('content')
 <div class="container">
     <div class="row">
         <div class="col-10">
