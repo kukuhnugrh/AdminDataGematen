@@ -8,9 +8,14 @@
 <body>
     <center>
         <h2>DATA UMAT LINGKUNGAN</h2>
-        @foreach( $dataLingkungan as $dl )
-            <h3>{{ $dl->lingkungan_nama }}</h3>
-        @endforeach
+        @if($dataLingkungan == "SEMUA LINGKUNGAN")
+            <h3>SEMUA LINGKUNGAN</h3>
+        @else
+            @foreach( $dataLingkungan as $dl )
+                <h3>{{ $dl->lingkungan_nama }}</h3>
+            @endforeach
+        @endif
+        
         <h5>{{ date('Y-m-d H:i:s') }}</h5>
     </center>
     <br>

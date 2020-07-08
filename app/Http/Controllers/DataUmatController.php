@@ -103,18 +103,31 @@ class DataUmatController extends Controller
     }
 
     public function cetak_pdf($id)
-    {
-    	$dataUmat = DB::table('umat')
+    {   
+        if($id == 0 || $id == "0"){
+            $dataUmat = DB::table('umat')
+                        ->join('hubungan_keluarga', 'umat.umat_hubungan_keluarga', '=', 'hubungan_keluarga.hubungan_keluarga_id')
+                        ->join('agama', 'umat.umat_agama', '=', 'agama.agama_id')
+                        ->orderBy('umat_lingkungan_id', 'ASC')
+                        ->orderBy('umat_kk', 'ASC')
+                        ->orderBy('hubungan_keluarga_id', 'DESC')->get();
+            $dataLingkungan = "SEMUA LINGKUNGAN";
+            $pdf = PDF::loadview('dataUmatPDF', ['dataUmat' => $dataUmat], ['dataLingkungan' => $dataLingkungan])->setPaper('a4', 'landscape');
+        }else{
+            $dataUmat = DB::table('umat')
                         ->join('hubungan_keluarga', 'umat.umat_hubungan_keluarga', '=', 'hubungan_keluarga.hubungan_keluarga_id')
                         ->join('agama', 'umat.umat_agama', '=', 'agama.agama_id')
                         ->where('umat_lingkungan_id', $id)
                         ->orderBy('umat_lingkungan_id', 'ASC')
                         ->orderBy('umat_kk', 'ASC')
                         ->orderBy('hubungan_keluarga_id', 'DESC')->get();
-        $dataLingkungan = DB::table('lingkungan')
+            $dataLingkungan = DB::table('lingkungan')
                                 ->where('lingkungan_id', $id)
                                 ->get();
-    	$pdf = PDF::loadview('dataUmatPDF', ['dataUmat' => $dataUmat], ['dataLingkungan' => $dataLingkungan])->setPaper('a4', 'landscape');;
+            $pdf = PDF::loadview('dataUmatPDF', ['dataUmat' => $dataUmat], ['dataLingkungan' => $dataLingkungan])->setPaper('a4', 'landscape');
+        }
+    	
+    	//$pdf = PDF::loadview('dataUmatPDF', ['dataUmat' => $dataUmat], ['dataLingkungan' => $dataLingkungan])->setPaper('a4', 'landscape');
     	return $pdf->download('DATAUMAT');
     }
 }

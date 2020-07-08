@@ -23,7 +23,7 @@
                                     </select>
                                 </div>
                                 <div class="col-sm-3">
-                                    <a href="ataUmat/PDF/0" target="_blank" name="Export" id="Export"><button type="button" class="btn btn-primary">Export to PDF</button></a>
+                                    <a href="dataUmat/PDF/0" target="_blank" name="Export" id="Export"><button type="button" class="btn btn-primary">Export to PDF</button></a>
                                 </div>
                             </div>
                         </div>
