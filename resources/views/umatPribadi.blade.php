@@ -1,23 +1,12 @@
-@extends('layout/main')
+@extends('layouts/app')
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
 
-@section('container')
+@section('content')
 <div class="container">
     <div class="row">
         <div class="col-10">
             <h1 class="mt-2">Daftar Umat Pribadi</h1>
-            <label for="name" class=" col-form-label"><b>Wilayah</b></label>
-            <div class="form-group row">
-                <div class="col-md-6">
-                    <select name="Wilayah" id="Wilayah" class="form-control input-lg" required>
-                        <option value="0">== Pilih Wilayah ==</option>
-                        @foreach( $dataWilayah as $dw )
-                            <option value="{{ $dw->wilayah_id }}">{{ $dw->wilayah_nama }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
             <div id="container-table table-responsive">
                 <table class="table">
                     <div class="row">
@@ -51,7 +40,7 @@
                                 <td>{{ $dup->umat_kk}}</td>
                                 <td>{{ $dup->umat_ktp}}</td>
                                 <td>{{ $dup->umat_nama}}</td>
-                                <td><a href='/detailUmat/{{ $dup->umat_nama }}' class="badge badge-success">Detail</a></td>
+                                <td><a href='/detailUmat/{{ $dup->umat_nama }}' class="badge badge-danger">Detail</a></td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -64,34 +53,10 @@
 @section('js')
 <script>
     $(document).ready(function(){
-        $('select[name=Wilayah]').on('change', function(){
-            var WilayahID = $(this).val();
-            $.ajax({
-                url: '/umatPribadi/'+WilayahID,
-                type: "GET",
-                dataType: "json",
-                success:function(data){
-                    var i = 1;
-                    $('#daftarUmatPribadi').empty();
-                    $.each(data, function(key, value){
-                        $('#daftarUmatPribadi').append("<tr><td scope='row'>"+i+
-                            "</td><td>"+value.umat_kk+
-                            "</td><td>"+value.umat_ktp+
-                            "</td><td>"+value.umat_nama+
-                            "</td><td><a href='/detailUmat/"+value.umat_nama+"' class='badge badge-success'>Detail</a></td></tr>");
-                            i++;
-                    });
-                }
-            });
-        });
-    });
-
-    $(document).ready(function(){
         $('input[name=cariUmat]').on('keyup', function(){
             var keyword = $(this).val();
-            var wilayahID = document.getElementById('Wilayah').value;
             $.ajax({
-                url: '/umatPribadi/'+wilayahID+'/'+keyword,
+                url: '/umatPribadi/livesearch/'+keyword,
                 type: "GET",
                 dataType: "json",
                 success:function(data){

@@ -19,5 +19,6 @@ Route::get('/dataUmat/PDF/{id}', 'DataUmatController@cetak_pdf');
 Route::get('/umatPribadi', 'UmatPribadiController@index');
 Route::get('/umatPribadi/{id}', 'UmatPribadiController@show');
 Route::get('/umatPribadi/{id}/{keyword}', 'UmatPribadiController@liveSearch');
+Route::get('/detailUmat/{umat_nama}', 'UmatPribadiController@detail');
 Auth::routes();
 
