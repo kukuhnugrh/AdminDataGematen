@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PDF;
 
 class DataUmatController extends Controller
 {
@@ -40,7 +41,7 @@ class DataUmatController extends Controller
      */
     public function store(Request $request)
     {
-       //
+        //
     }
 
     /**
@@ -51,7 +52,7 @@ class DataUmatController extends Controller
      */
     public function show($id)
     {
-        if($id == 0){
+        if($id == "0"){
             $dataUmat = DB::table('umat')
                         ->join('hubungan_keluarga', 'umat.umat_hubungan_keluarga', '=', 'hubungan_keluarga.hubungan_keluarga_id')
                         ->join('agama', 'umat.umat_agama', '=', 'agama.agama_id')
@@ -64,8 +65,7 @@ class DataUmatController extends Controller
                         ->orderBy('umat_kk', 'ASC')->orderBy('hubungan_keluarga_id', 'DESC')->get();
 
         }
-        $dataLingkungan = DB::table('lingkungan')->get();
-        return view('index', ['dataUmat' => $dataUmat], ['dataLingkungan' => $dataLingkungan]);
+        return $dataUmat;
     }
 
     /**
@@ -100,5 +100,21 @@ class DataUmatController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function cetak_pdf($id)
+    {
+    	$dataUmat = DB::table('umat')
+                        ->join('hubungan_keluarga', 'umat.umat_hubungan_keluarga', '=', 'hubungan_keluarga.hubungan_keluarga_id')
+                        ->join('agama', 'umat.umat_agama', '=', 'agama.agama_id')
+                        ->where('umat_lingkungan_id', $id)
+                        ->orderBy('umat_lingkungan_id', 'ASC')
+                        ->orderBy('umat_kk', 'ASC')
+                        ->orderBy('hubungan_keluarga_id', 'DESC')->get();
+        $dataLingkungan = DB::table('lingkungan')
+                                ->where('lingkungan_id', $id)
+                                ->get();
+    	$pdf = PDF::loadview('dataUmatPDF', ['dataUmat' => $dataUmat], ['dataLingkungan' => $dataLingkungan])->setPaper('a4', 'landscape');;
+    	return $pdf->download('DATAUMAT');
     }
 }

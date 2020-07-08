@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UmatPribadiController extends Controller
 {
@@ -13,7 +14,11 @@ class UmatPribadiController extends Controller
      */
     public function index()
     {
-        return view('umatPribadi');
+        $dataUmatPribadi = DB::table('umat')
+                            ->orderBy('umat_kk', 'ASC')
+                            ->paginate(15);
+        $dataWilayah = DB::table('wilayah')->get();
+        return view('umatPribadi', ['dataUmatPribadi' => $dataUmatPribadi], ['dataWilayah' => $dataWilayah]);
     }
 
     /**
@@ -45,7 +50,18 @@ class UmatPribadiController extends Controller
      */
     public function show($id)
     {
-        //
+        if($id == "0"){
+            $dataUmatPribadi = DB::table('umat')
+                                ->orderBy('umat_kk', 'ASC')
+                                ->get();
+        }else{
+            $dataUmatPribadi = DB::table('umat')
+                                ->join('wilayah', 'umat.umat_wilayah_id', '=', 'wilayah.wilayah_id')
+                                ->where('umat_wilayah_id', $id)
+                                ->orderBy('umat_kk', 'ASC')
+                                ->get();
+        }
+        return $dataUmatPribadi;
     }
 
     /**
@@ -80,5 +96,20 @@ class UmatPribadiController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function liveSearch($id, $keyword){
+        if($id == "0"){
+            $dataUmatPribadi = DB::table('umat')
+                                ->where('umat_nama', 'like', '%'.$keyword.'%')
+                                ->get();
+        }else{
+            $dataUmatPribadi = DB::table('umat')
+                                ->join('wilayah', 'umat.umat_wilayah_id', '=', 'wilayah.wilayah_id')
+                                ->where('umat_wilayah_id', $id)
+                                ->where('umat_nama', 'like', '%'.$keyword.'%')
+                                ->get();
+        }
+        return $dataUmatPribadi;
     }
 }
