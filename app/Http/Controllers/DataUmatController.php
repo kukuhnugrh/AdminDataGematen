@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use PDF;
 
 class DataUmatController extends Controller
@@ -14,13 +15,18 @@ class DataUmatController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $dataUmat = DB::table('umat')
+    {   
+        if (Auth::check()) {
+            $dataUmat = DB::table('umat')
                         ->join('hubungan_keluarga', 'umat.umat_hubungan_keluarga', '=', 'hubungan_keluarga.hubungan_keluarga_id')
                         ->join('agama', 'umat.umat_agama', '=', 'agama.agama_id')
                         ->orderBy('umat_kk', 'ASC')->orderBy('hubungan_keluarga_id', 'DESC')->paginate(15);
-        $dataLingkungan = DB::table('lingkungan')->get();
-        return view('index', ['dataUmat' => $dataUmat], ['dataLingkungan' => $dataLingkungan]);
+            $dataLingkungan = DB::table('lingkungan')->get();
+            return view('index', ['dataUmat' => $dataUmat], ['dataLingkungan' => $dataLingkungan]);
+        }else{
+            return view('auth/login');
+        }
+        
     }
 
     /**

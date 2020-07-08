@@ -13,13 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'DataUmatController@index');
+Route::get('/', 'DataUmatController@index')->name('home');
 Route::get('/dataUmat/{id}', 'DataUmatController@show');
 Route::get('/dataUmat/PDF/{id}', 'DataUmatController@cetak_pdf');
 Route::get('/umatPribadi', 'UmatPribadiController@index');
 Route::get('/umatPribadi/{id}', 'UmatPribadiController@show');
 Route::get('/umatPribadi/{id}/{keyword}', 'UmatPribadiController@liveSearch');
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
 
