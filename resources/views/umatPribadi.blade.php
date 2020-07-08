@@ -40,7 +40,7 @@
                                 <td>{{ $dup->umat_kk}}</td>
                                 <td>{{ $dup->umat_ktp}}</td>
                                 <td>{{ $dup->umat_nama}}</td>
-                                <td><a href='/detailUmat/{{ $dup->umat_nama }}' class="badge badge-success">Detail</a></td>
+                                <td><a href='/detailUmat/{{ $dup->umat_nama }}' class="badge badge-danger">Detail</a></td>
                             </tr>
                         @endforeach
                     </tbody>
