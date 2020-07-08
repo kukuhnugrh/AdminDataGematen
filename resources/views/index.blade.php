@@ -8,21 +8,31 @@
         <div class="col-10">
             <h1 class="mt-2">Daftar Umat</h1>
             <label for="name" class=" col-form-label"><b>Lingkungan</b></label>
-            <div class="form-group row">
-                <div class="col-md-6">
-                    <select name="Lingkungan" id="Lingkungan" class="form-control input-lg" required>
-                        <option value="0">== Pilih Lingkungan ==</option>
-                        @foreach( $dataLingkungan as $dl )
-                            <option value="{{ $dl->lingkungan_id }}">{{ $dl->lingkungan_nama }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div>
-                    <a href="ataUmat/PDF/0" target="_blank" name="Export" id="Export"><button type="button" class="btn btn-primary">Export to PDF</button></a>
-                </div>
-            </div>
+            
             <div id="container-table table-responsive">
                 <table class="table">
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <div class="form-group row">
+                                <div class="col-sm-9">
+                                    <select name="Lingkungan" id="Lingkungan" class="form-control input-lg" required>
+                                        <option value="0">== Pilih Lingkungan ==</option>
+                                        @foreach( $dataLingkungan as $dl )
+                                            <option value="{{ $dl->lingkungan_id }}">{{ $dl->lingkungan_nama }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-sm-3">
+                                    <a href="ataUmat/PDF/0" target="_blank" name="Export" id="Export"><button type="button" class="btn btn-primary">Export to PDF</button></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div  class="col-sm-3">
+                            <nav aria-label="Page navigation example">
+                                {{ $dataUmat->links() }}
+                            </nav>
+                        </div>
+                    </div>
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">#</th>
