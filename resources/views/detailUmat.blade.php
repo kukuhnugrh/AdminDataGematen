@@ -80,6 +80,7 @@
                         <div class="card-body">
                             <h5 class="card-title">Berkas Bukti</h5>
                             <li class="list-group">Tanggal Update: {{ $dup->tgl_update}}</li>
+                            <img src="{{ asset('/storage/Foto/Laura-laura@example.com/Foto Profil - Laura.jpg' }}" class="img-thumbnail" alt="Responsive image">
                             <a href=""  name="Upload" id=""><button type="button" class="btn btn-danger">Upload</button></a>
                             <a href=""  name="Upload" id=""><button type="button" class="btn btn-danger">Upload</button></a>
                             <a href=""  name="Upload" id=""><button  type="button" class="btn btn-danger">Upload</button></a>

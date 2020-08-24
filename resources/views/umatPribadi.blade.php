@@ -67,7 +67,7 @@
                             "</td><td>"+value.umat_kk+
                             "</td><td>"+value.umat_ktp+
                             "</td><td>"+value.umat_nama+
-                            "</td><td><a href='/detailUmat/"+value.umat_nama+"' class='badge badge-success'>Detail</a></td></tr>");
+                            "</td><td><a href='/detailUmat/"+value.umat_nama+"' class='badge badge-danger'>Detail</a></td></tr>");
                             i++;
                     });
                 }

@@ -14,18 +14,25 @@ class DataUmatController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {   
-        if (Auth::check()) {
-            $dataUmat = DB::table('umat')
-                        ->join('hubungan_keluarga', 'umat.umat_hubungan_keluarga', '=', 'hubungan_keluarga.hubungan_keluarga_id')
-                        ->join('agama', 'umat.umat_agama', '=', 'agama.agama_id')
-                        ->orderBy('umat_kk', 'ASC')->orderBy('hubungan_keluarga_id', 'DESC')->paginate(15);
-            $dataLingkungan = DB::table('lingkungan')->get();
-            return view('index', ['dataUmat' => $dataUmat], ['dataLingkungan' => $dataLingkungan]);
-        }else{
-            return view('auth/login');
-        }
+        // if (Auth::check()) {
+           
+        // }else{
+        //     return view('auth/login');
+        // }
+
+        $dataUmat = DB::table('umat')
+        ->join('hubungan_keluarga', 'umat.umat_hubungan_keluarga', '=', 'hubungan_keluarga.hubungan_keluarga_id')
+        ->join('agama', 'umat.umat_agama', '=', 'agama.agama_id')
+        ->orderBy('umat_kk', 'ASC')->orderBy('hubungan_keluarga_id', 'DESC')->paginate(15);
+        $dataLingkungan = DB::table('lingkungan')->get();
+        return view('index', ['dataUmat' => $dataUmat], ['dataLingkungan' => $dataLingkungan]);
         
     }
 
@@ -130,7 +137,7 @@ class DataUmatController extends Controller
             $dataLingkungan = DB::table('lingkungan')
                                 ->where('lingkungan_id', $id)
                                 ->get();
-            $pdf = PDF::loadview('dataUmatPDF', ['dataUmat' => $dataUmat], ['dataLingkungan' => $dataLingkungan])->setPaper('a4', 'landscape');
+            $pdf = PDF::loadview('dataUmatPDF', ['dataUmat' => $dataUmat], ['dataLingkungan' => $dataLingkungan])->setPaper('a4', 'landscape')->set_option('isFontSubsettingEnabled', true);
         }
     	return $pdf->download('DATAUMAT');
     }

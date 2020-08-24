@@ -4,6 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Umat</title>
+    <style>
+        @font-face {
+            font-family: 'Muli';
+            font-weight: normal;
+            font-style: normal;
+            font-variant: normal;
+            src: url("fonts/Muli.ttf") format("truetype");
+        }
+        body {
+            font-family: Muli, sans-serif;
+        }
+    </style>
 </head>
 <body>
     <center>
